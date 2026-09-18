@@ -1,1 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Majid Imani — Senior Software Engineer specializing in .NET, Angular, and full-stack systems." />
+  <title>Majid Imani — Senior Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0c1a2e;
+      --ink-soft: #243447;
+      --muted: #5a6b7d;
+      --line: rgba(12, 26, 46, 0.12);
+      --paper: #f3f6f9;
+      --paper-deep: #e4ebf2;
+      --teal: #0f6e6a;
+      --teal-deep: #0a524f;
+      --white: #ffffff;
+      --shadow-soft: 0 18px 40px rgba(12, 26, 46, 0.08);
+      --radius: 4px;
+      --max: 1120px;
+      --font-display: "Syne", sans-serif;
+      --font-body: "Figtree", sans-serif;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(15, 110, 106, 0.12), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(36, 52, 71, 0.08), transparent 50%),
+        linear-gradient(180deg, #eef3f7 0%, var(--paper) 40%, #e8eef4 100%);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .skip {
+      position: absolute;
+      left: -999px;
+      top: 0;
+    }
+
+    .skip:focus {
+      left: 1rem;
+      top: 1rem;
+      z-index: 100;
+      background: var(--white);
+      padding: 0.5rem 0.75rem;
+    }
+
+    /* —— Nav —— */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(243, 246, 249, 0.82);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .nav.is-scrolled {
+      border-bottom-color: var(--line);
+      background: rgba(243, 246, 249, 0.94);
+    }
+
+    .nav__inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav__brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 1.25rem;
+      list-style: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    .nav__links a {
+      position: relative;
+    }
+
+    .nav__links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 100%;
+      height: 1.5px;
+      background: var(--teal);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .nav__links a:hover::after,
+    .nav__links a:focus-visible::after {
+      transform: scaleX(1);
+    }
+
+    .nav__toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--line);
+      padding: 0.4rem 0.65rem;
+      font: inherit;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    /* —— Hero —— */
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.35fr 0.9fr;
+      gap: 3rem;
+      align-items: end;
+      padding: 3rem 1.5rem 2.5rem;
+      opacity: 0;
+      animation: rise 0.9s ease forwards;
+    }
+
+    .hero__copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .hero__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2.6rem, 5.5vw, 4rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+    }
+
+    .hero__role {
+      font-size: clamp(1.02rem, 2vw, 1.2rem);
+      font-weight: 600;
+      color: var(--teal);
+      letter-spacing: 0.01em;
+    }
+
+    .hero__lead {
+      max-width: 38rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.15rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.85rem 1.35rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: var(--radius);
+      border: 1.5px solid transparent;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn--primary {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .btn--primary:hover {
+      background: var(--teal-deep);
+    }
+
+    .btn--ghost {
+      background: transparent;
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .btn--ghost:hover {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .hero__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1.4rem;
+      margin-top: 0.15rem;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+    }
+
+    .hero__meta span,
+    .hero__meta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hero__meta a:hover {
+      color: var(--teal);
+    }
+
+    .hero__meta svg {
+      width: 15px;
+      height: 15px;
+      opacity: 0.7;
+    }
+
+    .hero__aside {
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+      padding: 1.5rem 0 0.25rem 1.75rem;
+      border-left: 1px solid var(--line);
+      animation: rise 0.9s ease 0.12s both;
+    }
+
+    .hero__aside-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    .hero__aside-list {
+      list-style: none;
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .hero__aside-list li {
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .hero__aside-list strong {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .hero__aside-list span {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* —— Sections —— */
+    .section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem;
+    }
+
+    .section__head {
+      margin-bottom: 2.25rem;
+      max-width: 36rem;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .section__head.is-visible,
+    .job.is-visible,
+    .edu.is-visible,
+    .skill-group.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .section__eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.55rem;
+    }
+
+    .section__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.65rem;
+    }
+
+    .section__desc {
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .about-text p + p {
+      margin-top: 1rem;
+    }
+
+    .about-text p {
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+    }
+
+    .about-highlights {
+      display: grid;
+      gap: 1.1rem;
+      padding-top: 0.25rem;
+    }
+
+    .highlight {
+      padding-left: 1rem;
+      border-left: 2px solid var(--teal);
+    }
+
+    .highlight strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.15rem;
+    }
+
+    .highlight span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* Experience */
+    .timeline {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .job {
+      display: grid;
+      grid-template-columns: minmax(140px, 190px) 1fr;
+      gap: 1.5rem;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--line);
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .job__when {
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding-top: 0.2rem;
+    }
+
+    .job__company {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .job__title {
+      color: var(--teal);
+      font-weight: 600;
+      margin: 0.2rem 0 0.25rem;
+    }
+
+    .job__place {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .job ul {
+      list-style: none;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .job li {
+      position: relative;
+      padding-left: 1rem;
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+    }
+
+    .job li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 5px;
+      height: 5px;
+      background: var(--teal);
+      border-radius: 1px;
+    }
+
+    /* Skills */
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .skill-group {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .skill-group h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 0.85rem;
+      letter-spacing: -0.02em;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      padding: 0.45rem 0.75rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--line);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    /* Education */
+    .edu-list {
+      display: grid;
+      gap: 1.25rem;
+      border-top: 1px solid var(--line);
+      padding-top: 1.5rem;
+    }
+
+    .edu {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: baseline;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--line);
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .edu h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    .edu p {
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    .edu__years {
+      color: var(--muted);
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    /* Contact */
+    .contact {
+      background:
+        linear-gradient(135deg, rgba(12, 26, 46, 0.96), rgba(15, 110, 106, 0.88)),
+        var(--ink);
+      color: var(--white);
+      margin-top: 1rem;
+    }
+
+    .contact .section {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+
+    .contact .section__eyebrow {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact .section__title {
+      color: var(--white);
+    }
+
+    .contact .section__desc {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+    }
+
+    .contact .btn--primary {
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    .contact .btn--primary:hover {
+      background: #e8f0f0;
+    }
+
+    .contact .btn--ghost {
+      border-color: rgba(255, 255, 255, 0.55);
+      color: var(--white);
+    }
+
+    .contact .btn--ghost:hover {
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    .footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .footer a:hover {
+      color: var(--white);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem 1.5rem 1.75rem;
+      }
+
+      .hero__aside {
+        padding: 1.5rem 0 0;
+        border-left: none;
+        border-top: 1px solid var(--line);
+      }
+
+      .about-grid,
+      .skills {
+        grid-template-columns: 1fr;
+      }
+
+      .job {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav__links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(243, 246, 249, 0.98);
+        border-bottom: 1px solid var(--line);
+        padding: 0.5rem 1.5rem 1rem;
+      }
+
+      .nav__links.is-open {
+        display: flex;
+      }
+
+      .nav__links li {
+        padding: 0.55rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav__toggle {
+        display: inline-flex;
+      }
+
+      .edu {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .hero__name {
+        font-size: 2.55rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero,
+      .section__head,
+      .job,
+      .edu,
+      .skill-group {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .btn:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="#top">Majid Imani</a>
+      <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-label="Introduction">
+      <div class="hero__copy">
+        <h1 class="hero__name">Majid Imani</h1>
+        <p class="hero__role">Senior Software Engineer · Technical Team Lead</p>
+        <p class="hero__lead">
+          Building scalable enterprise systems with .NET and Angular — modernizing legacy platforms, shaping clean architectures, and leading teams that ship reliable software.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#contact">Get in touch</a>
+          <a class="btn btn--ghost" href="Majid_Imani.pdf" download>Download PDF</a>
+        </div>
+        <div class="hero__meta">
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="m4 8 8 5 8-5"/></svg>
+            majidimani2012@gmail.com
+          </span>
+          <a href="https://github.com/MajidImani" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.586 2 12.253c0 4.527 2.865 8.363 6.839 9.718.5.094.683-.222.683-.48 0-.237-.009-.866-.014-1.7-2.782.62-3.369-1.372-3.369-1.372-.455-1.18-1.11-1.495-1.11-1.495-.908-.638.069-.625.069-.625 1.004.072 1.532 1.057 1.532 1.057.892 1.566 2.341 1.114 2.91.852.092-.662.35-1.114.636-1.37-2.22-.26-4.555-1.14-4.555-5.074 0-1.12.39-2.037 1.029-2.756-.103-.26-.446-1.3.098-2.71 0 0 .84-.276 2.75 1.052A9.35 9.35 0 0 1 12 6.844a9.35 9.35 0 0 1 2.504.346c1.909-1.328 2.747-1.052 2.747-1.052.546 1.41.203 2.45.1 2.71.64.72 1.028 1.636 1.028 2.756 0 3.944-2.339 4.811-4.566 5.067.359.317.678.943.678 1.901 0 1.371-.012 2.477-.012 2.813 0 .26.18.58.688.48A10.27 10.27 0 0 0 22 12.253C22 6.586 17.523 2 12 2z"/></svg>
+            github.com/MajidImani
+          </a>
+        </div>
+      </div>
+      <aside class="hero__aside" aria-label="Professional focus">
+        <p class="hero__aside-label">Focus</p>
+        <ul class="hero__aside-list">
+          <li>
+            <strong>.NET &amp; Angular</strong>
+            <span>Enterprise full-stack delivery</span>
+          </li>
+          <li>
+            <strong>Legacy modernization</strong>
+            <span>ERP systems, Clean Architecture</span>
+          </li>
+          <li>
+            <strong>Technical leadership</strong>
+            <span>Team planning, reviews, delivery</span>
+          </li>
+          <li>
+            <strong>8+ years</strong>
+            <span>Backend and full-stack engineering</span>
+          </li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section" id="about">
+      <div class="section__head reveal">
+        <p class="section__eyebrow">About</p>
+        <h2 class="section__title">Engineering that lasts beyond the release</h2>
+        <p class="section__desc">Eight years of backend and full-stack work focused on performance, maintainability, and clear system design.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I am a Senior Software Engineer with 8+ years of experience building high-performance enterprise applications using .NET and Angular. My work centers on modernizing legacy systems, designing clean architectures, and leading cross-functional teams from planning through delivery.
+          </p>
+          <p>
+            I care about system design, performance optimization, and long-term maintainability — and about shipping reliable software in fast-paced environments where technical excellence actually moves the business forward.
+          </p>
+        </div>
+        <div class="about-highlights">
+          <div class="highlight">
+            <strong>8+</strong>
+            <span>Years of professional experience</span>
+          </div>
+          <div class="highlight">
+            <strong>.NET &amp; Angular</strong>
+            <span>Primary stack for enterprise delivery</span>
+          </div>
+          <div class="highlight">
+            <strong>Team lead</strong>
+            <span>Guiding engineers across product and platform work</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="section__head reveal">
+        <p class="section__eyebrow">Experience</p>
+        <h2 class="section__title">Where I've built and led</h2>
+        <p class="section__desc">From ERP modernization and DevOps to secure hardware wallets and real-time monitoring platforms.</p>
+      </div>
+      <div class="timeline">
+        <article class="job reveal">
+          <div class="job__when">May 2025 – Present</div>
+          <div>
+            <h3 class="job__company">Eyvan Group</h3>
+            <p class="job__title">Technical Team Lead</p>
+            <p class="job__place">Tehran, Iran</p>
+            <ul>
+              <li>Led a team of 5 software engineers — planning, assigning, and tracking work for timely delivery.</li>
+              <li>Reviewed and integrated backend and frontend changes; contributed to .NET and Next.js development.</li>
+              <li>Improved deployment workflows with Dockerized services and GitLab CI/CD pipelines.</li>
+              <li>Used AI-assisted tooling (including Cursor) to raise coding efficiency, review quality, and problem-solving speed.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job reveal">
+          <div class="job__when">Mar 2024 – May 2025</div>
+          <div>
+            <h3 class="job__company">Golrang System</h3>
+            <p class="job__title">Senior Full-Stack Developer (.NET &amp; Angular)</p>
+            <p class="job__place">Tehran, Iran</p>
+            <ul>
+              <li>Modernized a large-scale ERP system with .NET 8 and Angular for better structure and scalability.</li>
+              <li>Refactored legacy SQL stored procedures into LINQ and applied Clean Architecture to cut technical debt.</li>
+              <li>Built responsive UI components and improved overall UX and frontend performance.</li>
+              <li>Delivered key business modules such as Inventory within Agile teams.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job reveal">
+          <div class="job__when">Jan 2021 – Mar 2024</div>
+          <div>
+            <h3 class="job__company">Radin Technology</h3>
+            <p class="job__title">Senior Software Engineer &amp; Team Lead</p>
+            <p class="job__place">Tehran, Iran</p>
+            <ul>
+              <li>Led 4 engineers building a non-custodial cryptocurrency hardware wallet on Java Card and secure smart cards.</li>
+              <li>Implemented BIP32-based key generation and integrated Bitcoin and Ethereum for secure transaction signing.</li>
+              <li>Designed backend services with NestJS and ASP.NET for transaction processing and analytics.</li>
+              <li>Improved performance and scalability through caching strategies and optimized data handling.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job reveal">
+          <div class="job__when">Jan 2016 – Jan 2021</div>
+          <div>
+            <h3 class="job__company">Hasin Group</h3>
+            <p class="job__title">Full-Stack Developer (.NET &amp; Angular)</p>
+            <p class="job__place">Tehran, Iran</p>
+            <ul>
+              <li>Developed a real-time ATM monitoring and analytics platform with ASP.NET Core.</li>
+              <li>Designed a modular system structure to improve maintainability and scale.</li>
+              <li>Boosted performance with Redis caching and optimized database interactions.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="section__head reveal">
+        <p class="section__eyebrow">Skills</p>
+        <h2 class="section__title">Tools I use to ship</h2>
+        <p class="section__desc">A focused stack for enterprise backends, modern frontends, and delivery workflows.</p>
+      </div>
+      <div class="skills">
+        <div class="skill-group reveal">
+          <h3>Technologies</h3>
+          <div class="tags">
+            <span class="tag">.NET 8</span>
+            <span class="tag">Entity Framework Core</span>
+            <span class="tag">ASP.NET</span>
+            <span class="tag">Angular</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">NestJS</span>
+            <span class="tag">Docker</span>
+            <span class="tag">GitLab CI/CD</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Git / TFS</span>
+            <span class="tag">Linux</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <h3>Languages &amp; practices</h3>
+          <div class="tags">
+            <span class="tag">C#</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Clean Architecture</span>
+            <span class="tag">System design</span>
+            <span class="tag">Agile delivery</span>
+            <span class="tag">Team leadership</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="education">
+      <div class="section__head reveal">
+        <p class="section__eyebrow">Education</p>
+        <h2 class="section__title">Academic background</h2>
+        <p class="section__desc">Computer engineering foundations from two of Iran’s leading technical universities.</p>
+      </div>
+      <div class="edu-list">
+        <div class="edu reveal">
+          <div>
+            <h3>University of Tehran</h3>
+            <p>M.Sc., Computer Engineering</p>
+          </div>
+          <div class="edu__years">Sep 2013 – Jan 2016 · Tehran, Iran</div>
+        </div>
+        <div class="edu reveal">
+          <div>
+            <h3>Iran University of Science and Technology</h3>
+            <p>B.A., Computer Engineering</p>
+          </div>
+          <div class="edu__years">Sep 2007 – Aug 2011 · Tehran, Iran</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="contact" id="contact">
+      <div class="section">
+        <div class="section__head reveal">
+          <p class="section__eyebrow">Contact</p>
+          <h2 class="section__title">Let’s build something solid</h2>
+          <p class="section__desc">Reach out for collaborations, technical leadership opportunities, or full-stack .NET work.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn--primary" href="mailto:majidimani2012@gmail.com">Email me</a>
+          <a class="btn btn--ghost" href="tel:+989366345119">+98 936 634 5119</a>
+          <a class="btn btn--ghost" href="https://github.com/MajidImani" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="btn btn--ghost" href="https://www.majidimani.com" target="_blank" rel="noopener noreferrer">majidimani.com</a>
+          <a class="btn btn--ghost" href="Majid_Imani.pdf" download>Resume PDF</a>
+        </div>
+      </div>
+      <footer class="footer">
+        <span>© <span id="year"></span> Majid Imani</span>
+        <a href="#top">Back to top</a>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var nav = document.getElementById("nav");
+      var toggle = document.getElementById("navToggle");
+      var links = document.getElementById("navLinks");
+      var year = document.getElementById("year");
+
+      if (year) year.textContent = String(new Date().getFullYear());
+
+      window.addEventListener("scroll", function () {
+        nav.classList.toggle("is-scrolled", window.scrollY > 12);
+      }, { passive: true });
+
+      toggle.addEventListener("click", function () {
+        var open = links.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+
+      links.querySelectorAll("a").forEach(function (a) {
+        a.addEventListener("click", function () {
+          links.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          io.observe(el);
+        });
+      } else {
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          el.classList.add("is-visible");
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
